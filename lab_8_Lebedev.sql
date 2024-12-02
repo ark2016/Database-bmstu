@@ -1,130 +1,130 @@
--- Шаг 1: Создание базы данных и таблицы
+-- РЁР°Рі 1: РЎРѕР·РґР°РЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С… Рё С‚Р°Р±Р»РёС†С‹
 
--- Создание базы данных
+-- РЎРѕР·РґР°РЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
 CREATE DATABASE GoClubDB;
 GO
 
--- Переключение контекста на новую базу данных
+-- РџРµСЂРµРєР»СЋС‡РµРЅРёРµ РєРѕРЅС‚РµРєСЃС‚Р° РЅР° РЅРѕРІСѓСЋ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
 USE GoClubDB;
 GO
 
--- Создание таблицы Го_клуб
-CREATE TABLE Го_клуб (
+-- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Р“Рѕ_РєР»СѓР±
+CREATE TABLE Р“Рѕ_РєР»СѓР± (
     club_id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    название NVARCHAR(100) NOT NULL,
-    адрес NVARCHAR(512) NOT NULL,
-    регион TINYINT NOT NULL,
-    рейтинг SMALLINT
+    РЅР°Р·РІР°РЅРёРµ NVARCHAR(100) NOT NULL,
+    Р°РґСЂРµСЃ NVARCHAR(512) NOT NULL,
+    СЂРµРіРёРѕРЅ TINYINT NOT NULL,
+    СЂРµР№С‚РёРЅРі SMALLINT
 );
 GO
 
--- Заполнение таблицы данными
-INSERT INTO Го_клуб (название, адрес, регион, рейтинг)
+-- Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ РґР°РЅРЅС‹РјРё
+INSERT INTO Р“Рѕ_РєР»СѓР± (РЅР°Р·РІР°РЅРёРµ, Р°РґСЂРµСЃ, СЂРµРіРёРѕРЅ, СЂРµР№С‚РёРЅРі)
 VALUES
-    ('Клуб А', 'Адрес А', 1, 2200),
-    ('Клуб Б', 'Адрес Б', 2, 1800),
-    ('Клуб В', 'Адрес В', 3, 1200),
-    ('Клуб Г', 'Адрес Г', 4, 2350);
+    ('РљР»СѓР± Рђ', 'РђРґСЂРµСЃ Рђ', 1, 2200),
+    ('РљР»СѓР± Р‘', 'РђРґСЂРµСЃ Р‘', 2, 1800),
+    ('РљР»СѓР± Р’', 'РђРґСЂРµСЃ Р’', 3, 1200),
+    ('РљР»СѓР± Р“', 'РђРґСЂРµСЃ Р“', 4, 2350);
 GO
 
--- Проверка данных в таблице
--- SELECT * FROM Го_клуб;
+-- РџСЂРѕРІРµСЂРєР° РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Рµ
+-- SELECT * FROM Р“Рѕ_РєР»СѓР±;
 -- GO
 
--- Создание хранимой процедуры, возвращающей курсор
+-- РЎРѕР·РґР°РЅРёРµ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹, РІРѕР·РІСЂР°С‰Р°СЋС‰РµР№ РєСѓСЂСЃРѕСЂ
 
 CREATE PROCEDURE dbo.GetClubsCursor
-    @ClubCursor CURSOR VARYING OUTPUT --Определяет параметр @club_cursor типа CURSOR с атрибутами VARYING и OUTPUT. Это означает, что процедура будет возвращать курсор, который может быть использован в вызывающем коде.
+    @ClubCursor CURSOR VARYING OUTPUT --РћРїСЂРµРґРµР»СЏРµС‚ РїР°СЂР°РјРµС‚СЂ @club_cursor С‚РёРїР° CURSOR СЃ Р°С‚СЂРёР±СѓС‚Р°РјРё VARYING Рё OUTPUT. Р­С‚Рѕ РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РїСЂРѕС†РµРґСѓСЂР° Р±СѓРґРµС‚ РІРѕР·РІСЂР°С‰Р°С‚СЊ РєСѓСЂСЃРѕСЂ, РєРѕС‚РѕСЂС‹Р№ РјРѕР¶РµС‚ Р±С‹С‚СЊ РёСЃРїРѕР»СЊР·РѕРІР°РЅ РІ РІС‹Р·С‹РІР°СЋС‰РµРј РєРѕРґРµ.
 AS
 BEGIN
-    SET @ClubCursor = CURSOR FORWARD_ONLY STATIC FOR --Инициализирует курсор @club_cursor как однонаправленный статический курсор.
-    SELECT название, адрес, регион, рейтинг FROM Го_клуб;
+    SET @ClubCursor = CURSOR FORWARD_ONLY STATIC FOR --РРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РєСѓСЂСЃРѕСЂ @club_cursor РєР°Рє РѕРґРЅРѕРЅР°РїСЂР°РІР»РµРЅРЅС‹Р№ СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РєСѓСЂСЃРѕСЂ.
+    SELECT РЅР°Р·РІР°РЅРёРµ, Р°РґСЂРµСЃ, СЂРµРіРёРѕРЅ, СЂРµР№С‚РёРЅРі FROM Р“Рѕ_РєР»СѓР±;
     OPEN @ClubCursor;
 END;
 GO
 
--- Модификация хранимой процедуры с использованием пользовательской функции
+-- РњРѕРґРёС„РёРєР°С†РёСЏ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ С„СѓРЅРєС†РёРё
 
--- Создание пользовательской функции для формирования столбца
-CREATE FUNCTION dbo.GetRatingCategory (@рейтинг SMALLINT)
+-- РЎРѕР·РґР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ С„СѓРЅРєС†РёРё РґР»СЏ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ СЃС‚РѕР»Р±С†Р°
+CREATE FUNCTION dbo.GetRatingCategory (@СЂРµР№С‚РёРЅРі SMALLINT)
 RETURNS NVARCHAR(50)
 AS
 BEGIN
     DECLARE @Category NVARCHAR(50);
-    IF @рейтинг >= 2000
-        SET @Category = 'Высокий';
-    ELSE IF @рейтинг >= 1500
-        SET @Category = 'Средний';
+    IF @СЂРµР№С‚РёРЅРі >= 2000
+        SET @Category = 'Р’С‹СЃРѕРєРёР№';
+    ELSE IF @СЂРµР№С‚РёРЅРі >= 1500
+        SET @Category = 'РЎСЂРµРґРЅРёР№';
     ELSE
-        SET @Category = 'Низкий';
+        SET @Category = 'РќРёР·РєРёР№';
     RETURN @Category;
 END; 
 GO
 
--- Модификация хранимой процедуры с использованием пользовательской функции
+-- РњРѕРґРёС„РёРєР°С†РёСЏ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ С„СѓРЅРєС†РёРё
 CREATE PROCEDURE dbo.GetClubsCursorWithCategory
     @ClubCursor CURSOR VARYING OUTPUT
 AS
 BEGIN
     SET @ClubCursor = CURSOR FORWARD_ONLY STATIC FOR
-    SELECT название, адрес, регион, рейтинг, dbo.GetRatingCategory(рейтинг) AS RatingCategory FROM Го_клуб;
+    SELECT РЅР°Р·РІР°РЅРёРµ, Р°РґСЂРµСЃ, СЂРµРіРёРѕРЅ, СЂРµР№С‚РёРЅРі, dbo.GetRatingCategory(СЂРµР№С‚РёРЅРі) AS RatingCategory FROM Р“Рѕ_РєР»СѓР±;
 	OPEN @ClubCursor;
 	--fetch next
 END;
 GO
 
--- Создание хранимой процедуры для прокрутки курсора и вывода сообщений
+-- РЎРѕР·РґР°РЅРёРµ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё РєСѓСЂСЃРѕСЂР° Рё РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№
 
--- Создание пользовательской функции для проверки условия
-CREATE FUNCTION dbo.CheckRating (@рейтинг SMALLINT)
+-- РЎРѕР·РґР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРѕР№ С„СѓРЅРєС†РёРё РґР»СЏ РїСЂРѕРІРµСЂРєРё СѓСЃР»РѕРІРёСЏ
+CREATE FUNCTION dbo.CheckRating (@СЂРµР№С‚РёРЅРі SMALLINT)
 RETURNS BIT
 AS
 BEGIN
-    RETURN CASE WHEN @рейтинг >= 1500 THEN 1 ELSE 0 END;
+    RETURN CASE WHEN @СЂРµР№С‚РёРЅРі >= 1500 THEN 1 ELSE 0 END;
 END;
 GO
 
--- Создание хранимой процедуры для прокрутки курсора и вывода сообщений
+-- РЎРѕР·РґР°РЅРёРµ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё РєСѓСЂСЃРѕСЂР° Рё РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№
 CREATE PROCEDURE dbo.ProcessClubsCursor
 AS
 BEGIN
     DECLARE @ClubCursor CURSOR;
-    DECLARE @название NVARCHAR(100), @адрес NVARCHAR(512), @регион TINYINT, @рейтинг SMALLINT, @RatingCategory NVARCHAR(50);
+    DECLARE @РЅР°Р·РІР°РЅРёРµ NVARCHAR(100), @Р°РґСЂРµСЃ NVARCHAR(512), @СЂРµРіРёРѕРЅ TINYINT, @СЂРµР№С‚РёРЅРі SMALLINT, @RatingCategory NVARCHAR(50);
 
-    -- Вызов процедуры для получения курсора
+    -- Р’С‹Р·РѕРІ РїСЂРѕС†РµРґСѓСЂС‹ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєСѓСЂСЃРѕСЂР°
     EXEC dbo.GetClubsCursorWithCategory @ClubCursor = @ClubCursor OUTPUT;
 
-    -- Открытие курсора
+    -- РћС‚РєСЂС‹С‚РёРµ РєСѓСЂСЃРѕСЂР°
     --OPEN @ClubCursor;
 
-    -- Прокрутка курсора и вывод сообщений
-    FETCH NEXT FROM @ClubCursor INTO @название, @адрес, @регион, @рейтинг, @RatingCategory;
+    -- РџСЂРѕРєСЂСѓС‚РєР° РєСѓСЂСЃРѕСЂР° Рё РІС‹РІРѕРґ СЃРѕРѕР±С‰РµРЅРёР№
+    FETCH NEXT FROM @ClubCursor INTO @РЅР°Р·РІР°РЅРёРµ, @Р°РґСЂРµСЃ, @СЂРµРіРёРѕРЅ, @СЂРµР№С‚РёРЅРі, @RatingCategory;
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        IF dbo.CheckRating(@рейтинг) = 1
-            PRINT 'Клуб: ' + @название + ', Адрес: ' + @адрес + ', Категория: ' + @RatingCategory;
-        FETCH NEXT FROM @ClubCursor INTO @название, @адрес, @регион, @рейтинг, @RatingCategory;
+        IF dbo.CheckRating(@СЂРµР№С‚РёРЅРі) = 1
+            PRINT 'РљР»СѓР±: ' + @РЅР°Р·РІР°РЅРёРµ + ', РђРґСЂРµСЃ: ' + @Р°РґСЂРµСЃ + ', РљР°С‚РµРіРѕСЂРёСЏ: ' + @RatingCategory;
+        FETCH NEXT FROM @ClubCursor INTO @РЅР°Р·РІР°РЅРёРµ, @Р°РґСЂРµСЃ, @СЂРµРіРёРѕРЅ, @СЂРµР№С‚РёРЅРі, @RatingCategory;
     END;
 
-    -- Закрытие и удаление курсора
+    -- Р—Р°РєСЂС‹С‚РёРµ Рё СѓРґР°Р»РµРЅРёРµ РєСѓСЂСЃРѕСЂР°
     CLOSE @ClubCursor;
     DEALLOCATE @ClubCursor;
 END;
 GO
 
--- Модификация хранимой процедуры с использованием табличной функции
+-- РњРѕРґРёС„РёРєР°С†РёСЏ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј С‚Р°Р±Р»РёС‡РЅРѕР№ С„СѓРЅРєС†РёРё
 
--- Создание табличной функции
+-- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС‡РЅРѕР№ С„СѓРЅРєС†РёРё
 CREATE FUNCTION dbo.GetClubsTableFunction ()
 RETURNS TABLE
 AS
 RETURN
 (
-    SELECT название, адрес, регион, рейтинг, dbo.GetRatingCategory(рейтинг) AS RatingCategory FROM Го_клуб
+    SELECT РЅР°Р·РІР°РЅРёРµ, Р°РґСЂРµСЃ, СЂРµРіРёРѕРЅ, СЂРµР№С‚РёРЅРі, dbo.GetRatingCategory(СЂРµР№С‚РёРЅРі) AS RatingCategory FROM Р“Рѕ_РєР»СѓР±
 );
 GO
 
--- Модификация хранимой процедуры с использованием табличной функции
+-- РњРѕРґРёС„РёРєР°С†РёСЏ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј С‚Р°Р±Р»РёС‡РЅРѕР№ С„СѓРЅРєС†РёРё
 CREATE PROCEDURE dbo.GetClubsCursorWithTableFunction
     @ClubCursor CURSOR VARYING OUTPUT
 AS
@@ -135,15 +135,15 @@ BEGIN
 END;
 GO
 
--- Создание новой табличной функции, возвращающей таблицу
+-- РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ С‚Р°Р±Р»РёС‡РЅРѕР№ С„СѓРЅРєС†РёРё, РІРѕР·РІСЂР°С‰Р°СЋС‰РµР№ С‚Р°Р±Р»РёС†Сѓ
 CREATE FUNCTION dbo.GetClubsWithRatingCategory ()
 RETURNS @ResultTable TABLE
 (
     club_id UNIQUEIDENTIFIER,
-    название NVARCHAR(100),
-    адрес NVARCHAR(512),
-    регион TINYINT,
-    рейтинг SMALLINT,
+    РЅР°Р·РІР°РЅРёРµ NVARCHAR(100),
+    Р°РґСЂРµСЃ NVARCHAR(512),
+    СЂРµРіРёРѕРЅ TINYINT,
+    СЂРµР№С‚РёРЅРі SMALLINT,
     RatingCategory NVARCHAR(50)
 )
 AS
@@ -151,25 +151,25 @@ BEGIN
     INSERT INTO @ResultTable
     SELECT
         club_id,
-        название,
-        адрес,
-        регион,
-        рейтинг,
-        dbo.GetRatingCategory(рейтинг) AS RatingCategory
-    FROM Го_клуб;
+        РЅР°Р·РІР°РЅРёРµ,
+        Р°РґСЂРµСЃ,
+        СЂРµРіРёРѕРЅ,
+        СЂРµР№С‚РёРЅРі,
+        dbo.GetRatingCategory(СЂРµР№С‚РёРЅРі) AS RatingCategory
+    FROM Р“Рѕ_РєР»СѓР±;
     RETURN;
 END;
 GO
- --SELECT * from Го_клуб;
--- Выполнение хранимых процедур
+ --SELECT * from Р“Рѕ_РєР»СѓР±;
+-- Р’С‹РїРѕР»РЅРµРЅРёРµ С…СЂР°РЅРёРјС‹С… РїСЂРѕС†РµРґСѓСЂ
 
--- Выполнение хранимой процедуры для прокрутки курсора и вывода сообщений
+-- Р’С‹РїРѕР»РЅРµРЅРёРµ С…СЂР°РЅРёРјРѕР№ РїСЂРѕС†РµРґСѓСЂС‹ РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё РєСѓСЂСЃРѕСЂР° Рё РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№
 EXEC dbo.ProcessClubsCursor;
 GO
 
---	Удаление всех созданных элементов
+--	РЈРґР°Р»РµРЅРёРµ РІСЃРµС… СЃРѕР·РґР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
 
--- Удаление хранимых процедур, если они существуют
+-- РЈРґР°Р»РµРЅРёРµ С…СЂР°РЅРёРјС‹С… РїСЂРѕС†РµРґСѓСЂ, РµСЃР»Рё РѕРЅРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚
 IF EXISTS (SELECT * FROM sys.procedures WHERE name = 'GetClubsCursor')
     DROP PROCEDURE dbo.GetClubsCursor;
 GO
@@ -186,7 +186,7 @@ IF EXISTS (SELECT * FROM sys.procedures WHERE name = 'GetClubsCursorWithTableFun
     DROP PROCEDURE dbo.GetClubsCursorWithTableFunction;
 GO
 
--- Удаление пользовательских функций, если они существуют
+-- РЈРґР°Р»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёС… С„СѓРЅРєС†РёР№, РµСЃР»Рё РѕРЅРё СЃСѓС‰РµСЃС‚РІСѓСЋС‚
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.GetRatingCategory') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
     DROP FUNCTION dbo.GetRatingCategory;
 GO
@@ -203,11 +203,11 @@ IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.GetClubsW
     DROP FUNCTION dbo.GetClubsWithRatingCategory;
 GO
 
--- Удаление таблицы
-DROP TABLE Го_клуб;
+-- РЈРґР°Р»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹
+DROP TABLE Р“Рѕ_РєР»СѓР±;
 GO
 
--- Удаление базы данных
+-- РЈРґР°Р»РµРЅРёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
 USE master;
 GO
 DROP DATABASE GoClubDB;
