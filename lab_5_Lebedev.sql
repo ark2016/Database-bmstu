@@ -1,88 +1,88 @@
-CREATE DATABASE СборнаяDB
+CREATE DATABASE РЎР±РѕСЂРЅР°СЏDB
 ON PRIMARY 
-( NAME = SbornayaDB, FILENAME = 'D:\labDB\lab5\СборнаяDB.mdf' , SIZE = 8192KB , FILEGROWTH = 65536KB )
+( NAME = SbornayaDB, FILENAME = 'D:\labDB\lab5\РЎР±РѕСЂРЅР°СЏDB.mdf' , SIZE = 8192KB , FILEGROWTH = 65536KB )
 LOG ON 
-( NAME = SbornayaDB_log, FILENAME = 'D:\labDB\lab5\СборнаяDB_log.ldf' , SIZE = 8192KB , FILEGROWTH = 65536KB );
+( NAME = SbornayaDB_log, FILENAME = 'D:\labDB\lab5\РЎР±РѕСЂРЅР°СЏDB_log.ldf' , SIZE = 8192KB , FILEGROWTH = 65536KB );
 GO
 
-CREATE TABLE Сборная  (
-    регион INT PRIMARY KEY NOT NULL,
-    капитан NVARCHAR(100) NOT NULL
+CREATE TABLE РЎР±РѕСЂРЅР°СЏ  (
+    СЂРµРіРёРѕРЅ INT PRIMARY KEY NOT NULL,
+    РєР°РїРёС‚Р°РЅ NVARCHAR(100) NOT NULL
 );
 
-INSERT INTO Сборная(регион, капитан)
-VALUES (1, 'Иванов Иван Иваныч')
+INSERT INTO РЎР±РѕСЂРЅР°СЏ(СЂРµРіРёРѕРЅ, РєР°РїРёС‚Р°РЅ)
+VALUES (1, 'РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅС‹С‡')
 
 
-INSERT INTO Сборная(регион, капитан)
-VALUES (2, 'Вин Дизель')
+INSERT INTO РЎР±РѕСЂРЅР°СЏ(СЂРµРіРёРѕРЅ, РєР°РїРёС‚Р°РЅ)
+VALUES (2, 'Р’РёРЅ Р”РёР·РµР»СЊ')
 
-SELECT * FROM [Сборная];
+SELECT * FROM [РЎР±РѕСЂРЅР°СЏ];
 
 GO
 
-ALTER DATABASE СборнаяDB
-ADD FILEGROUP СборнаяFG;
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
+ADD FILEGROUP РЎР±РѕСЂРЅР°СЏFG;
 GO
 
-ALTER DATABASE СборнаяDB
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
 ADD FILE 
-( NAME = 'СборнаяData',
-  FILENAME = 'D:\labDB\lab5\СборнаяData.ndf',
+( NAME = 'РЎР±РѕСЂРЅР°СЏData',
+  FILENAME = 'D:\labDB\lab5\РЎР±РѕСЂРЅР°СЏData.ndf',
   SIZE = 5MB,
   MAXSIZE = 100MB,
   FILEGROWTH = 5MB )
-TO FILEGROUP СборнаяFG;
+TO FILEGROUP РЎР±РѕСЂРЅР°СЏFG;
 GO
 
-ALTER DATABASE СборнаяDB
-MODIFY FILEGROUP СборнаяFG DEFAULT;
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
+MODIFY FILEGROUP РЎР±РѕСЂРЅР°СЏFG DEFAULT;
 GO
 
-CREATE TABLE ГоКлуб (
-    Название NVARCHAR(100) PRIMARY KEY NOT NULL,
-    Адрес NVARCHAR(512) NOT NULL,
-	Регион TINYINT NOT NULL,
-	Рейтинг SMALLINT NULL
+CREATE TABLE Р“РѕРљР»СѓР± (
+    РќР°Р·РІР°РЅРёРµ NVARCHAR(100) PRIMARY KEY NOT NULL,
+    РђРґСЂРµСЃ NVARCHAR(512) NOT NULL,
+	Р РµРіРёРѕРЅ TINYINT NOT NULL,
+	Р РµР№С‚РёРЅРі SMALLINT NULL
 );
 
-INSERT INTO ГоКлуб(Название, Адрес, Регион, Рейтинг)
-VALUES ('Иванов Иван Иваныч', 'лучшее место', 100, 1487)
+INSERT INTO Р“РѕРљР»СѓР±(РќР°Р·РІР°РЅРёРµ, РђРґСЂРµСЃ, Р РµРіРёРѕРЅ, Р РµР№С‚РёРЅРі)
+VALUES ('РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅС‹С‡', 'Р»СѓС‡С€РµРµ РјРµСЃС‚Рѕ', 100, 1487)
 
 
-INSERT INTO ГоКлуб(Название, Адрес, Регион, Рейтинг)
-VALUES ('sente', 'Москва', 0, 1900)
+INSERT INTO Р“РѕРљР»СѓР±(РќР°Р·РІР°РЅРёРµ, РђРґСЂРµСЃ, Р РµРіРёРѕРЅ, Р РµР№С‚РёРЅРі)
+VALUES ('sente', 'РњРѕСЃРєРІР°', 0, 1900)
 
-SELECT * FROM ГоКлуб;
+SELECT * FROM Р“РѕРљР»СѓР±;
 GO
 
-DROP TABLE ГоКлуб;
+DROP TABLE Р“РѕРљР»СѓР±;
 GO
 
-ALTER DATABASE СборнаяDB
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
 MODIFY FILEGROUP [PRIMARY] DEFAULT;
 GO
 /*
-Этот шаг изменяет группу файлов по умолчанию обратно на PRIMARY. Это означает, что все новые таблицы, 
-создаваемые после этого изменения, будут создаваться в группе файлов PRIMARY, если не указано иное.
+Р­С‚РѕС‚ С€Р°Рі РёР·РјРµРЅСЏРµС‚ РіСЂСѓРїРїСѓ С„Р°Р№Р»РѕРІ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РѕР±СЂР°С‚РЅРѕ РЅР° PRIMARY. Р­С‚Рѕ РѕР·РЅР°С‡Р°РµС‚, С‡С‚Рѕ РІСЃРµ РЅРѕРІС‹Рµ С‚Р°Р±Р»РёС†С‹, 
+СЃРѕР·РґР°РІР°РµРјС‹Рµ РїРѕСЃР»Рµ СЌС‚РѕРіРѕ РёР·РјРµРЅРµРЅРёСЏ, Р±СѓРґСѓС‚ СЃРѕР·РґР°РІР°С‚СЊСЃСЏ РІ РіСЂСѓРїРїРµ С„Р°Р№Р»РѕРІ PRIMARY, РµСЃР»Рё РЅРµ СѓРєР°Р·Р°РЅРѕ РёРЅРѕРµ.
 */
 
-ALTER DATABASE СборнаяDB
-REMOVE FILE СборнаяData;
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
+REMOVE FILE РЎР±РѕСЂРЅР°СЏData;
 GO
 
-ALTER DATABASE СборнаяDB
-REMOVE FILEGROUP СборнаяFG;
+ALTER DATABASE РЎР±РѕСЂРЅР°СЏDB
+REMOVE FILEGROUP РЎР±РѕСЂРЅР°СЏFG;
 GO
 
-CREATE SCHEMA СборнаяСхема;
+CREATE SCHEMA РЎР±РѕСЂРЅР°СЏРЎС…РµРјР°;
 GO
 
-ALTER SCHEMA СборнаяСхема TRANSFER dbo.Сборная;
+ALTER SCHEMA РЎР±РѕСЂРЅР°СЏРЎС…РµРјР° TRANSFER dbo.РЎР±РѕСЂРЅР°СЏ;
 GO
 
-DROP TABLE СборнаяСхема.Сборная;
+DROP TABLE РЎР±РѕСЂРЅР°СЏРЎС…РµРјР°.РЎР±РѕСЂРЅР°СЏ;
 GO
 
-DROP SCHEMA СборнаяСхема;
+DROP SCHEMA РЎР±РѕСЂРЅР°СЏРЎС…РµРјР°;
 GO
